@@ -1,29 +1,50 @@
-import React from "react";
-import { ListGroup } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
+import './UserList.css'
+import axios from 'axios';
 
 
-const UserList = ({ user }) => {
-  return (
-    <div className="userList">
-        <ListGroup >
-      {user.map((el) => (
-        <div className=" list" key={el.id}>
-          <ListGroup.Item> ID: {el.id} </ListGroup.Item>
-          <ListGroup.Item> Name: {el.name} </ListGroup.Item>
-          <ListGroup.Item> Username: {el.username}</ListGroup.Item>
-          <ListGroup.Item> Email: {el.email}</ListGroup.Item>
-          <ListGroup.Item>  Street :{el.address.street   }</ListGroup.Item>
-          <ListGroup.Item>  Suite:{el.address.suite }</ListGroup.Item>
-          <ListGroup.Item> Phone: {el.phone}</ListGroup.Item>
-          <ListGroup.Item> Website: {el.website}</ListGroup.Item>
-          <ListGroup.Item> Company Name: {el.company.name}</ListGroup.Item>
-          <ListGroup.Item> Company bs: {el.company.bs}</ListGroup.Item>
+const UserList = () => {
+    const [dataUsers,setDataUsers]=useState([]);
+    const [error, setError]=useState(null);
+    
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/users')
+        .then((response)=>{
+            console.log(response);
+            setDataUsers(response.data);
+            // setDataUsers(response.json());
 
+        })
+        .catch((err)=>{
+            console.log(err);
+            setError(err);
+        })
+    }, [])
+
+    return (
+        <div className="Bcontainer">
+            {dataUsers.map(user=>
+            <ul key={user.id} className="card">
+                <li className="name">{user.name}</li>
+                <hr id="two" data-symbol="✈"/>
+                <div className="names">
+                <li><i className="far fa-user iconU"></i><span>User Name:</span> {user.username}</li>
+                <li><i className="far fa-envelope iconU"></i><span>Email:</span> {user.email}</li>
+                <li><i className="fas fa-phone iconU"></i><span>Phone:</span> {user.phone}</li>
+                <li><i className="far fa-building iconU"></i><span>Company Name:</span> {user.company.name}</li>
+                </div>
+                    {/* <ul className='adress'>
+                        <i class="fas fa-map-marked-alt"></i>
+                        <div className="adr">
+                        <li>Street: {user.address.street}</li>
+                        <li>City: {user.address.city}</li>
+                        <li>street: {user.address.zipcode}</li>
+                        </div>
+                    </ul> */}
+            </ul>
+                )}
         </div>
-      ))}
-                </ListGroup>
-    </div>
-  );
-};
+    )
+}
 
-export default UserList;
+export default UserList

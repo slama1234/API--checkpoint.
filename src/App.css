@@ -1,18 +1,3 @@
-.App {
-  text-align: center;
-  
-}
-h1{
-  background-color: darksalmon;
-}
-.list{
-  
-  padding: 10px;
-  margin: 10px;
-  background-color:coral
-}
-.userList{
-  width: 50%;
-  margin: auto;
-  
+*{
+  background: #e2e1e0;
 }
